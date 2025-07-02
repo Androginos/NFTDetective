@@ -26,7 +26,7 @@
 /* Hover Effects */
 .shelf-icon-wrapper:hover {
   transform: scale(1.1);
-  z-index: 100;
+  z-index: 500; /* Hover efektlerinde yüksek öncelik */
   /* Hover'da animasyonları durdur */
   animation: none;
 }
@@ -70,6 +70,235 @@
 .shelf-icon-debug-container {
   position: absolute;
   z-index: 20;
+}
+
+/* Modal Overlay - Tüm cihazlarda tam ortalama */
+.shelf-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center; /* Tam dikey ortalama */
+  z-index: 99999 !important;
+  padding: 0; /* Hiç padding yok */
+  margin: 0; /* Hiç margin yok */
+  box-sizing: border-box; /* Border-box sizing */
+  
+  /* Backdrop animasyonu */
+  animation: shelfBackdropFadeIn 0.3s ease-out;
+  
+  /* Flexbox güçlendirme */
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+/* Modal Content - Çekmece Container */
+.shelf-modal-content {
+  background: linear-gradient(135deg, #2c1810 0%, #4a2c1a 50%, #6b3e2a 100%);
+  border-radius: 15px;
+  border: 3px solid #8b4513;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 30px rgba(255, 215, 0, 0.3);
+  position: relative;
+  overflow: hidden;
+  transform: translateY(-100vh);
+  transition: transform 1.7s cubic-bezier(0.25, 0.46, 0.45, 0.94); /* Ses ile senkronize çekmece hareketi */
+  z-index: 100000 !important; /* Modal overlay'den daha yüksek */
+  
+  /* Flexbox ortalama için basit kurallar */
+  margin: 0; /* Flexbox kendisi halleder */
+  flex-shrink: 0; /* Boyutu korunsun */
+}
+
+/* Çekmece Açılma Animasyonu */
+.shelf-modal-content.slide-down {
+  transform: translateY(0); /* Sadece Y hareketi - X flexbox ile ortalı */
+  animation: drawerSlideDown 1.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Modal Close Button */
+.shelf-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 40px; /* 28px'den 40px'e büyütüldü */
+  color: #d4af37;
+  cursor: pointer;
+  z-index: 100001 !important; /* Modal content'ten daha yüksek - en üst seviye */
+  width: 50px; /* 35px'den 50px'e büyütüldü */
+  height: 50px; /* 35px'den 50px'e büyütüldü */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.shelf-modal-close:hover {
+  background-color: rgba(212, 175, 55, 0.2);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* Modal Image Container */
+.shelf-modal-image-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Modal Image */
+.shelf-modal-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.2));
+}
+
+/* Backdrop fade-in animasyonu */
+@keyframes shelfBackdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Çekmece Animasyonu Keyframes - Gerçek çekmece hareketi */
+@keyframes drawerSlideDown {
+  0% {
+    transform: translateY(-100vh);
+    opacity: 0;
+  }
+  20% {
+    transform: translateY(-80vh);
+    opacity: 0.3;
+  }
+  60% {
+    transform: translateY(-10vh);
+    opacity: 0.8;
+  }
+  90% {
+    transform: translateY(3px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Responsive Modal Boyutları - Hep tam ortalı */
+@media (max-width: 768px) {
+  /* Tablet - Modal tam ortalı kalır, sadece content ayarları */
+  .shelf-modal-image-container {
+    padding: 20px; /* Tablet için uygun padding */
+  }
+  
+  .shelf-modal-close {
+    font-size: 36px; 
+    width: 45px;
+    height: 45px;
+    top: 15px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Mobile - Modal tam ortalı kalır, sadece content ayarları */
+  .shelf-modal-image-container {
+    padding: 15px; /* Mobile için uygun padding */
+  }
+  
+  .shelf-modal-close {
+    font-size: 32px; 
+    width: 40px;
+    height: 40px;
+    top: 12px;
+    right: 15px;
+  }
+}
+
+/* Modal açık olduğu sırada TÜM CAM ICON elementlerini TAMAMEN GİZLE */
+body.modal-open .cam-icon-debug-container,
+body.modal-open .cam-icon-wrapper,
+body.modal-open .cam-icon-wrapper:hover,
+body.modal-open .cam-icon-wrapper.contained,
+body.modal-open .cam-icon-wrapper.contained:hover,
+body.modal-open .cam-icon-image,
+body.modal-open .cam-icon-wrapper:hover .cam-icon-image {
+  display: none !important; /* TAMAMEN GİZLE */
+  visibility: hidden !important; /* Çifte güvenlik */
+  z-index: -9999 !important; /* Üçlü güvenlik */
+  transform: none !important;
+  filter: none !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  transition: none !important;
+}
+
+/* Diğer iconları da tamamen gizle */
+body.modal-open .files-icon-wrapper,
+body.modal-open .files-icon-wrapper:hover,
+body.modal-open .frame-icon-wrapper,
+body.modal-open .frame-icon-wrapper:hover,
+body.modal-open .cigar-icon-wrapper,
+body.modal-open .cigar-icon-wrapper:hover,
+body.modal-open .magnifying-glass-wrapper,
+body.modal-open .magnifying-glass-wrapper:hover {
+  display: none !important; /* TAMAMEN GİZLE */
+  visibility: hidden !important;
+  z-index: -9999 !important;
+  transform: none !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  transition: none !important;
+}
+
+body.modal-open .files-icon-wrapper:hover .files-icon-image,
+body.modal-open .frame-icon-wrapper:hover .frame-icon-image,
+body.modal-open .cigar-icon-wrapper:hover .cigar-icon-image,
+body.modal-open .magnifying-glass-wrapper:hover .magnifying-glass-image {
+  display: none !important;
+  visibility: hidden !important;
+  transform: none !important;
+  filter: none !important;
+}
+
+/* Debug container'ları tamamen gizle */
+body.modal-open .files-icon-debug-container,
+body.modal-open .frame-icon-debug-container,
+body.modal-open .cigar-icon-debug-container,
+body.modal-open .magnifying-glass-debug-container {
+  display: none !important;
+  visibility: hidden !important;
+  z-index: -9999 !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
+/* FixedWorkspace hover efektleri */
+body.modal-open .workspace-item:hover,
+body.modal-open .workspace-item.hover {
+  z-index: -1 !important;
 }
 
 /* Gizemli Animasyonlar - Düzensiz ve Senkron */

@@ -5,7 +5,7 @@
   height: 100vh;
   top: 0;
   left: 0;
-  z-index: 30;
+  z-index: 5; /* 30'dan 5'e düşürüldü - modal'lardan çok düşük */
   pointer-events: none;
   
   /* Debug çerçeve - kırmızı noktalı */
@@ -27,7 +27,7 @@
   perspective: 1000px;
   transform-origin: center;
   pointer-events: none; /* Wrapper'ın kendisi tıklanamaz */
-  z-index: 25; /* Normal durumda MagnifyingGlass'dan biraz yüksek */
+  z-index: 10; /* 25'ten 10'a düşürüldü - modal'lardan çok düşük */
   
   /* Responsive pozisyonlama - container içinde */
   position: relative;
@@ -50,7 +50,7 @@
 /* Hover Effects */
 .cam-icon-wrapper:hover {
   transform: scale(1.25) translateZ(0);
-  z-index: 90; /* Area-4 hover durumunda yüksek z-index */
+  z-index: 15; /* 90'dan 15'e düşürüldü - modal'lardan çok düşük */
 }
 
 .cam-icon-wrapper:hover .cam-icon-image {
@@ -123,5 +123,231 @@
 
 .cam-icon-wrapper.contained:hover {
   transform: scale(1.15) translateZ(0); /* Daha yumuşak büyüme */
-  z-index: 90; /* Area-4 hover durumunda yüksek z-index */
+  z-index: 15; /* 90'dan 15'e düşürüldü - modal'lardan çok düşük */
+}
+
+/* Modal açık olduğu sırada CAM ICON'u TAMAMEN GİZLE */
+body.modal-open .cam-icon-debug-container,
+body.modal-open .cam-icon-wrapper,
+body.modal-open .cam-icon-wrapper:hover,
+body.modal-open .cam-icon-wrapper.contained,
+body.modal-open .cam-icon-wrapper.contained:hover,
+body.modal-open .cam-icon-image {
+  display: none !important; /* Tamamen gizle - en güçlü çözüm */
+  visibility: hidden !important; /* Çifte güvenlik */
+  z-index: -9999 !important; /* Üçlü güvenlik */
+  transform: none !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  transition: none !important;
+} 
+
+/* CAM MODAL STYLES - CSS Animasyonu ile */
+
+/* Modal Backdrop - Tüm cihazlarda tam ortalama */
+.cam-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999 !important;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  
+  /* Backdrop animasyonu */
+  animation: camBackdropFadeIn 0.3s ease-out;
+  
+  /* Flexbox güçlendirme */
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+/* Backdrop fade-in animasyonu */
+@keyframes camBackdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal Content - Cam temalı tasarım */
+.cam-modal-content {
+  background: linear-gradient(135deg, #1a2332 0%, #2a3442 50%, #3a4552 100%);
+  border-radius: 15px;
+  border: 3px solid #4a5568;
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 30px rgba(0, 212, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+  z-index: 100000 !important;
+  
+  /* Flexbox ortalama için basit kurallar */
+  margin: 0;
+  flex-shrink: 0;
+}
+
+/* Basit Fade-In Animasyonu */
+.cam-photo-pickup-animation {
+  animation: camFadeIn 0.3s ease-out forwards;
+}
+
+/* Çok Basit Fade-In */
+@keyframes camFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Modal Close Button */
+.cam-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 40px;
+  color: #00d4ff;
+  cursor: pointer;
+  z-index: 100001 !important;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.cam-modal-close:hover {
+  background-color: rgba(0, 212, 255, 0.2);
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* Modal Image Container */
+.cam-modal-image-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Modal Image */
+.cam-modal-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.2));
+}
+
+/* Responsive Modal Boyutları - Hep tam ortalı */
+@media (max-width: 768px) {
+  /* Tablet - Modal tam ortalı kalır, sadece content ayarları */
+  .cam-modal-image-container {
+    padding: 20px;
+  }
+  
+  .cam-modal-close {
+    font-size: 36px; 
+    width: 45px;
+    height: 45px;
+    top: 15px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Mobile - Modal tam ortalı kalır, sadece content ayarları */
+  .cam-modal-image-container {
+    padding: 15px;
+  }
+  
+  .cam-modal-close {
+    font-size: 32px; 
+    width: 40px;
+    height: 40px;
+    top: 12px;
+    right: 15px;
+  }
+}
+
+/* Modal açık olduğu sırada diğer elementleri kontrol et */
+body.cam-modal-open .shelf-icon-wrapper,
+body.cam-modal-open .shelf-icon-wrapper:hover,
+body.cam-modal-open .files-icon-wrapper,
+body.cam-modal-open .files-icon-wrapper:hover,
+body.cam-modal-open .frame-icon-wrapper,
+body.cam-modal-open .frame-icon-wrapper:hover,
+body.cam-modal-open .cigar-icon-wrapper,
+body.cam-modal-open .cigar-icon-wrapper:hover,
+body.cam-modal-open .magnifying-glass-wrapper,
+body.cam-modal-open .magnifying-glass-wrapper:hover,
+body.cam-modal-open .cam-icon-wrapper,
+body.cam-modal-open .cam-icon-wrapper:hover {
+  display: none !important;
+  visibility: hidden !important;
+  z-index: -9999 !important;
+  transform: none !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  transition: none !important;
+}
+
+/* Debug container'ları da gizle */
+body.cam-modal-open .shelf-icon-debug-container,
+body.cam-modal-open .files-icon-debug-container,
+body.cam-modal-open .frame-icon-debug-container,
+body.cam-modal-open .cigar-icon-debug-container,
+body.cam-modal-open .magnifying-glass-debug-container,
+body.cam-modal-open .cam-icon-debug-container {
+  display: none !important;
+  visibility: hidden !important;
+  z-index: -9999 !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
+/* FixedWorkspace hover efektleri */
+body.cam-modal-open .workspace-item:hover,
+body.cam-modal-open .workspace-item.hover {
+  z-index: -1 !important;
+}
+
+/* Cam Icon Hover Efektleri */
+.cam-icon-wrapper {
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.cam-icon-wrapper:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1) drop-shadow(0 0 10px rgba(0, 212, 255, 0.3));
+}
+
+.cam-icon-wrapper:active {
+  transform: scale(0.95);
+  transition: transform 0.1s ease;
 } 

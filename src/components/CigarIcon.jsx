@@ -3,6 +3,7 @@ import "./CigarIcon.css";
 
 const CigarIcon = ({ deviceType, position, customSize, contained = false }) => {
   const canvasRef = useRef(null);
+  const audioRef = useRef(null);
   const [isHovering, setIsHovering] = useState(false);
   const particles = useRef([]);
   const lastFrameTime = useRef(0);
@@ -75,6 +76,18 @@ const CigarIcon = ({ deviceType, position, customSize, contained = false }) => {
         dy: -speed * Math.sin(angle), // Yukarı doğru (negatif Y)
       };
   };
+
+  // Cleanup ses sistemi
+  useEffect(() => {
+    return () => {
+      // Component unmount olduğunda ses durdur
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+        audioRef.current = null;
+      }
+    };
+  }, []);
 
   // Duman animasyon sistemi
   useEffect(() => {
@@ -158,11 +171,76 @@ const CigarIcon = ({ deviceType, position, customSize, contained = false }) => {
     };
   }, [isHovering, contained, finalSize, currentSize]);
 
+  // Ses çalma fonksiyonu
+  const playHoverSound = () => {
+    console.log('🚬 Cigar hover ses efekti başlatılıyor...');
+    try {
+      // Önceki ses varsa durdur
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current.currentTime = 0;
+      }
+      
+      const audio = new Audio('/sounds/soundeffect3.mp3');
+      audio.volume = 0.6;
+      audio.loop = false; // Sadece bir kere çalsın
+      audioRef.current = audio;
+      
+      audio.addEventListener('canplaythrough', () => {
+        console.log('✅ Cigar hover ses dosyası yüklendi');
+      });
+      
+      audio.addEventListener('error', (e) => {
+        console.error('❌ Cigar hover ses dosyası yükleme hatası:', e);
+        console.error('❌ Dosya yolu kontrol edin: /sounds/soundeffect3.mp3');
+      });
+      
+      // Ses bittiğinde cleanup
+      audio.addEventListener('ended', () => {
+        console.log('🚬 Cigar hover ses efekti tamamlandı');
+        audioRef.current = null;
+      });
+      
+      audio.play()
+        .then(() => {
+          console.log('✅ Cigar hover ses başarıyla çalıyor (1 kere)');
+        })
+        .catch(err => {
+          console.error('❌ Cigar hover ses çalma hatası:', err);
+        });
+        
+    } catch (error) {
+      console.error('❌ Cigar hover ses objesi oluşturma hatası:', error);
+    }
+  };
+
+  // Ses durdurma fonksiyonu (artık hover çıkışında ses durdurmayacağız, doğal bitişini bekleyeceğiz)
+  const stopHoverSound = () => {
+    // Ses zaten bir kere çalıp bitiyor, zorla durdurmaya gerek yok
+    // Ama component unmount durumunda hala durdurmalıyız
+    console.log('🚬 Cigar hover çıkışı - ses doğal olarak bitecek');
+  };
+
   // Hover event handlers
-  const handleMouseEnter = () => setIsHovering(true);
-  const handleMouseLeave = () => setIsHovering(false);
-  const handleTouchStart = () => setIsHovering(true);
-  const handleTouchEnd = () => setIsHovering(false);
+  const handleMouseEnter = () => {
+    setIsHovering(true);
+    playHoverSound();
+  };
+  
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+    stopHoverSound();
+  };
+  
+  const handleTouchStart = () => {
+    setIsHovering(true);
+    playHoverSound();
+  };
+  
+  const handleTouchEnd = () => {
+    setIsHovering(false);
+    stopHoverSound();
+  };
 
   if (contained) {
     // Area içinde kullanım - duman efektli wrapper

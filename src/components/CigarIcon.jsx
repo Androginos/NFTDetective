@@ -182,7 +182,7 @@ const CigarIcon = ({ deviceType, position, customSize, contained = false }) => {
       }
       
       const audio = new Audio('/sounds/soundeffect3.mp3');
-      audio.volume = 0.6;
+      audio.volume = 0.2;
       audio.loop = false; // Sadece bir kere çalsın
       audioRef.current = audio;
       

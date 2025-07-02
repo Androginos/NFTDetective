@@ -46,7 +46,7 @@ const MagnifyingGlass = ({ deviceType, position, customSize, contained = false, 
   const playClickSound = () => {
     console.log('🔍 Magnifier ses efekti çalmaya çalışılıyor...');
     try {
-      const audio = new Audio('/sounds/soundeffect3.mp3'); // Magnifier tıklama ses efekti
+      const audio = new Audio('/sounds/soundeffect6.mp3'); // Magnifier tıklama ses efekti
       audio.volume = 0.7;
       
       audio.addEventListener('canplaythrough', () => {
@@ -55,7 +55,7 @@ const MagnifyingGlass = ({ deviceType, position, customSize, contained = false, 
       
       audio.addEventListener('error', (e) => {
         console.error('❌ Magnifier ses dosyası yükleme hatası:', e);
-        console.error('❌ Dosya yolu kontrol edin: /sounds/soundeffect3.mp3');
+        console.error('❌ Dosya yolu kontrol edin: /sounds/soundeffect6.mp3');
       });
       
       audio.play()

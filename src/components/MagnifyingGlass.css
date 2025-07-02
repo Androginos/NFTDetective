@@ -72,13 +72,13 @@
 
 .magnifying-glass-wrapper:hover .magnifying-glass-image {
   transform: translate(-50%, -50%) scale(1.1) rotateZ(5deg);
-  filter: brightness(1.2) contrast(1.1) saturate(1.2) drop-shadow(0 0 8px rgba(0, 212, 255, 0.6));
+  filter: brightness(1.2) contrast(1.1) saturate(1.2) drop-shadow(0 0 8px rgba(91, 165, 147, 0.6));
 }
 
 /* Match-PNG modunda hover efekti */
 .magnifying-glass-wrapper.match-png-clickable:hover .magnifying-glass-image {
   transform: scale(1.1) rotateZ(5deg); /* translate kaldırıldı */
-  filter: brightness(1.2) contrast(1.1) saturate(1.2) drop-shadow(0 0 8px rgba(0, 212, 255, 0.6));
+  filter: brightness(1.2) contrast(1.1) saturate(1.2) drop-shadow(0 0 8px rgba(91, 165, 147, 0.6));
 }
 
 /* Active/Click Effect */
@@ -147,4 +147,207 @@
 .magnifying-glass-wrapper.contained:hover {
   transform: scale(1.15) translateZ(0); /* Daha yumuşak büyüme */
   z-index: 100; /* Hover durumunda en üstte kalması için yüksek z-index */
+}
+
+/* Modal Backdrop - Magnifier temalı */
+.magnifier-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 99999 !important;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  
+  /* Backdrop animasyonu */
+  animation: magnifierBackdropFadeIn 0.3s ease-out;
+  
+  /* Flexbox güçlendirme */
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+
+/* Backdrop fade-in animasyonu */
+@keyframes magnifierBackdropFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Modal Content - Magnifier temalı tasarım (Yeşil çerçeve) */
+.magnifier-modal-content {
+  background: linear-gradient(135deg, #1a2332 0%, #2a3442 50%, #3a4552 100%);
+  border-radius: 15px;
+  border: 3px solid #5BA593; /* Yeşil çerçeve */
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 0 30px rgba(91, 165, 147, 0.4); /* Yeşil glow efekti */
+  position: relative;
+  overflow: hidden;
+  z-index: 100000 !important;
+  
+  /* Flexbox ortalama için basit kurallar */
+  margin: 0;
+  flex-shrink: 0;
+}
+
+/* Basit Fade-In Animasyonu */
+.magnifier-search-animation {
+  animation: magnifierFadeIn 0.3s ease-out forwards;
+}
+
+/* Çok Basit Fade-In */
+@keyframes magnifierFadeIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Modal Close Button - Yeşil tema */
+.magnifier-modal-close {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 40px;
+  color: #5BA593; /* Yeşil renk */
+  cursor: pointer;
+  z-index: 100001 !important;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.magnifier-modal-close:hover {
+  background-color: rgba(91, 165, 147, 0.2); /* Yeşil hover */
+  color: #fff;
+  transform: scale(1.1);
+}
+
+/* Modal Image Container */
+.magnifier-modal-image-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+/* Modal Image */
+.magnifier-modal-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+  filter: drop-shadow(0 0 10px rgba(91, 165, 147, 0.3)); /* Yeşil glow */
+}
+
+/* Responsive Modal Boyutları - Hep tam ortalı */
+@media (max-width: 768px) {
+  /* Tablet - Modal tam ortalı kalır, sadece content ayarları */
+  .magnifier-modal-image-container {
+    padding: 20px;
+  }
+  
+  .magnifier-modal-close {
+    font-size: 36px; 
+    width: 45px;
+    height: 45px;
+    top: 15px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Mobile - Modal tam ortalı kalır, sadece content ayarları */
+  .magnifier-modal-image-container {
+    padding: 15px;
+  }
+  
+  .magnifier-modal-close {
+    font-size: 32px; 
+    width: 40px;
+    height: 40px;
+    top: 12px;
+    right: 15px;
+  }
+}
+
+/* Modal açık olduğu sırada diğer elementleri kontrol et */
+body.magnifier-modal-open .shelf-icon-wrapper,
+body.magnifier-modal-open .shelf-icon-wrapper:hover,
+body.magnifier-modal-open .cam-icon-wrapper,
+body.magnifier-modal-open .cam-icon-wrapper:hover,
+body.magnifier-modal-open .frame-icon-wrapper,
+body.magnifier-modal-open .frame-icon-wrapper:hover,
+body.magnifier-modal-open .cigar-icon-wrapper,
+body.magnifier-modal-open .cigar-icon-wrapper:hover,
+body.magnifier-modal-open .files-icon-wrapper,
+body.magnifier-modal-open .files-icon-wrapper:hover,
+body.magnifier-modal-open .magnifying-glass-wrapper,
+body.magnifier-modal-open .magnifying-glass-wrapper:hover {
+  display: none !important;
+  visibility: hidden !important;
+  z-index: -9999 !important;
+  transform: none !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+  transition: none !important;
+}
+
+/* Debug container'ları da gizle */
+body.magnifier-modal-open .shelf-icon-debug-container,
+body.magnifier-modal-open .cam-icon-debug-container,
+body.magnifier-modal-open .frame-icon-debug-container,
+body.magnifier-modal-open .cigar-icon-debug-container,
+body.magnifier-modal-open .files-icon-debug-container,
+body.magnifier-modal-open .magnifying-glass-debug-container {
+  display: none !important;
+  visibility: hidden !important;
+  z-index: -9999 !important;
+  pointer-events: none !important;
+  opacity: 0 !important;
+}
+
+/* FixedWorkspace hover efektleri */
+body.magnifier-modal-open .workspace-item:hover,
+body.magnifier-modal-open .workspace-item.hover {
+  z-index: -1 !important;
+}
+
+/* Magnifier Icon Hover Efektleri */
+.magnifying-glass-wrapper {
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.magnifying-glass-wrapper:hover {
+  transform: scale(1.05);
+  filter: brightness(1.1) drop-shadow(0 0 10px rgba(91, 165, 147, 0.3)); /* Yeşil glow */
 } 

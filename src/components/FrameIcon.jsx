@@ -47,7 +47,7 @@ const FrameIcon = ({ deviceType, position, customSize, contained = false }) => {
     console.log('🖼️ Frame ses efekti çalmaya çalışılıyor...');
     try {
              const audio = new Audio('/sounds/soundeffect4.mp3'); // Frame tıklama ses efekti
-      audio.volume = 0.7;
+      audio.volume = 0.9;
       
       audio.addEventListener('canplaythrough', () => {
         console.log('✅ Frame ses dosyası yüklendi ve çalmaya hazır');

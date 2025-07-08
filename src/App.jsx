@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 // Components
 import FixedWorkspace from './components/FixedWorkspace'
 import MusicPlayer from './components/MusicPlayer'
+import ContractInput from './components/ContractInput'
 // import ResponsiveBackground from './components/ResponsiveBackground'
 // import MagnifyingGlass from './components/MagnifyingGlass'
 // import InteractiveOverlay from './components/InteractiveOverlay'
@@ -16,6 +17,9 @@ function App() {
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
     >
+      {/* Contract Input - Sayfanın üst kısmında */}
+      <ContractInput />
+      
       {/* Sabit Boyutlu Workspace Sistemi */}
       <FixedWorkspace />
       

@@ -1,0 +1,206 @@
+/* Contract Input Container */
+.contract-input-container {
+  position: fixed;
+  top: 18px;
+  left: 17%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  pointer-events: auto;
+}
+
+.contract-input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px;
+  background: transparent;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+  border: 2px solid transparent;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Contract Input Field */
+.contract-input {
+  width: 450px;
+  height: 40px;
+  padding: 10px 15px;
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #d4af37;
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 16px;
+  font-family: 'Arial', sans-serif;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 2px 10px rgba(0, 0, 0, 0.3),
+    inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.contract-input::placeholder {
+  color: #999999;
+  font-style: italic;
+}
+
+.contract-input:focus {
+  border-color: #d4af37;
+  box-shadow: 
+    0 4px 20px rgba(212, 175, 55, 0.4),
+    0 0 0 3px rgba(212, 175, 55, 0.2),
+    inset 0 1px 3px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px);
+}
+
+.contract-input:hover {
+  border-color: #e6c547;
+  box-shadow: 
+    0 3px 15px rgba(212, 175, 55, 0.3),
+    inset 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Investigate Button */
+.investigate-button {
+  height: 40px;
+  padding: 10px 10px;
+  background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+  border: 1px solid #d4af37;
+  border-radius: 12px;
+  color: #000000;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Arial', sans-serif;
+  cursor: pointer;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 2px 10px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  min-width: 120px;
+}
+
+.investigate-button:hover:not(:disabled) {
+  background: linear-gradient(135deg, #e6c547 0%, #d4af37 100%);
+  border-color: #e6c547;
+  box-shadow: 
+    0 4px 20px rgba(212, 175, 55, 0.5),
+    0 0 0 3px rgba(212, 175, 55, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.investigate-button:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 
+    0 2px 8px rgba(212, 175, 55, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.investigate-button:disabled {
+  background: linear-gradient(135deg, #666666 0%, #555555 100%);
+  border-color: #666666;
+  color: #999999;
+  cursor: not-allowed;
+  box-shadow: 
+    0 1px 5px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  transform: none;
+}
+
+/* Responsive Design */
+
+/* Desktop (varsayılan) - 1367px ve üzeri */
+@media (min-width: 1367px) {
+  .contract-input-container {
+    /* Desktop ayarları varsayılan olarak üstte tanımlı */
+  }
+}
+
+/* Tablet - 768px ile 1366px arası (iPad Pro dahil) */
+@media (min-width: 768px) and (max-width: 1366px) {
+  .contract-input-container {
+    top: 20px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+  }
+  
+  .contract-input-wrapper {
+    flex-direction: row;
+    gap: 12px;
+    padding: 15px;
+    justify-content: center;
+  }
+  
+  .contract-input {
+    width: 350px;
+    font-size: 15px;
+  }
+  
+  .investigate-button {
+    font-size: 15px;
+    min-width: 110px;
+  }
+}
+
+/* Mobile - 767px ve altı */
+@media (max-width: 767px) {
+  .contract-input-container {
+    top: 15px;
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
+    width: 90%;
+    max-width: 400px;
+  }
+  
+  .contract-input-wrapper {
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    align-items: center;
+  }
+  
+  .contract-input {
+    width: 100%;
+    height: 40px;
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+  
+  .investigate-button {
+    width: 100%;
+    height: 40px;
+    padding: 10px 15px;
+    font-size: 14px;
+    min-width: auto;
+  }
+}
+
+/* Extra Small Mobile - 480px ve altı */
+@media (max-width: 480px) {
+  .contract-input-container {
+    top: 10px;
+    width: 95%;
+    max-width: 350px;
+  }
+  
+  .contract-input-wrapper {
+    padding: 10px;
+    gap: 8px;
+  }
+  
+  .contract-input {
+    height: 38px;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+  
+  .investigate-button {
+    height: 38px;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+} 

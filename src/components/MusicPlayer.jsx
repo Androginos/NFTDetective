@@ -4,9 +4,9 @@ import "./MusicPlayer.css";
 const MusicPlayer = () => {
   // Şarkı listesi - public klasöründeki dosyalar
   const playlist = [
-    { id: 1, name: "Ran Raiten - Keeping Routine", src: "/music/track1.mp3" },
-    { id: 2, name: "Track 2", src: "/music/track2.mp3" },
-    { id: 3, name: "Track 3", src: "/music/track3.mp3" },
+    { id: 1, name: "Keeping Routine", src: "/music/track1.mp3" },
+    { id: 2, name: "Sneak Peek", src: "/music/track2.mp3" },
+    { id: 3, name: "I Must Be Dreaming", src: "/music/track3.mp3" },
     { id: 4, name: "Track 4", src: "/music/track4.mp3" },
     { id: 5, name: "Track 5", src: "/music/track5.mp3" }
   ];

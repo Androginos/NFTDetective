@@ -13,31 +13,35 @@ const ShelfIcon = ({ deviceType, position, customSize, contained = false, clicka
   // Dinamik font boyutu hesaplama fonksiyonu
   const calculateFontSize = (text, deviceType) => {
     const baseFontSizes = {
-      desktop: 15,
-      tablet: 14,
-      mobile: 12
+      desktop: 14,  // Küçük alan için optimize
+      tablet: 13,   // Tablet için uygun  
+      mobile: 12    // Mobile için uygun
     };
     
     const maxWidths = {
-      desktop: 300,
-      tablet: 250,
-      mobile: 200
+      desktop: 200,  // CSS ile uyumlu hale getirdik
+      tablet: 180,   // Tablet için uygun
+      mobile: 160    // Mobile için uygun
     };
     
     const baseSize = baseFontSizes[deviceType] || baseFontSizes.desktop;
     const maxWidth = maxWidths[deviceType] || maxWidths.desktop;
     
-    // Karakter sayısına göre font boyutunu hesapla
+    // Karakter sayısına göre daha akıllı font boyutu hesaplama
     const textLength = text.length;
     let fontSize = baseSize;
     
-    if (textLength > 20) {
-      fontSize = baseSize - Math.floor((textLength - 20) / 8);
+    if (textLength > 25) {
+      // 25 karakterden sonra daha hızlı küçülme
+      fontSize = baseSize - Math.floor((textLength - 25) / 6);
+    } else if (textLength > 15) {
+      // 15-25 karakter arası yavaş küçülme
+      fontSize = baseSize - Math.floor((textLength - 15) / 10);
     }
     
-    // Minimum font boyutu sınırı
-    const minFontSize = deviceType === 'mobile' ? 9 : 
-                        deviceType === 'tablet' ? 10 : 11;
+    // Minimum font boyutu sınırları (daha yüksek)
+    const minFontSize = deviceType === 'mobile' ? 10 : 
+                        deviceType === 'tablet' ? 11 : 12;
     
     return Math.max(fontSize, minFontSize);
   };
@@ -150,10 +154,16 @@ const ShelfIcon = ({ deviceType, position, customSize, contained = false, clicka
   const handleTitleDoubleClick = () => {
     const testTitles = [
       'NFT Collection Name',
+      'Bored Ape Yacht Club',
       'Super Long NFT Collection Name That Should Get Smaller Font',
       'Very Very Very Long NFT Collection Name That Should Wrap to Multiple Lines and Still Stay Centered',
-      'Short Title',
-      'Medium Length NFT Collection'
+      'Short NFT',
+      'Medium Length NFT Collection',
+      'CryptoPunks',
+      'Art Blocks Curated',
+      'Extremely Long Named Digital Art Collection That Tests Font Sizing',
+      'X',
+      'This Is An Example Of A Really Really Long NFT Collection Name That Will Test The Wrapping And Font Scaling System'
     ];
     const currentIndex = testTitles.indexOf(collectionTitle);
     const nextTitle = testTitles[(currentIndex + 1) % testTitles.length];

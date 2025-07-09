@@ -5,6 +5,7 @@ const FileList = ({ fileCount = 0, searchTerm = '' }) => {
   // Temporary data - gerçek backend verisi geldiğinde değişecek
   const [files, setFiles] = useState([]);
   const [filteredFiles, setFilteredFiles] = useState([]);
+  const [isDesktop, setIsDesktop] = useState(true);
 
   // File görselleri döngüsü - file1, file2, file3
   const fileImages = ['/file1.png', '/file2.png', '/file3.png'];
@@ -15,6 +16,20 @@ const FileList = ({ fileCount = 0, searchTerm = '' }) => {
     1: { top: '5px', left: '480px' }, // file2.png için  
     2: { top: '5px', left: '70px' }  // file3.png için
   };
+
+  // Responsive detection
+  useEffect(() => {
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth > 900);
+    };
+    
+    // İlk yükleme
+    handleResize();
+    
+    // Resize listener
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // FileCount'a göre dosya listesi oluştur
   useEffect(() => {
@@ -62,16 +77,23 @@ const FileList = ({ fileCount = 0, searchTerm = '' }) => {
             const displayTop = searchTerm.trim() 
               ? `${index * 60}px` // Arama sonuçları için daha geniş aralık
               : `${file.groupIndex * 50 + file.type * 18}px`; // Orijinal pozisyon
+            
+            // Responsive için style kontrolü - state'ten al
+            const itemStyle = isDesktop ? {
+              top: displayTop,
+              zIndex: searchTerm.trim() ? 1000 + index : file.id
+            } : {
+              // Tablet/Mobile için inline style'ları kaldır
+              zIndex: searchTerm.trim() ? 1000 + index : file.id
+            };
               
             return (
               <div 
                 key={file.id} 
                 className="file-item" 
                 data-type={file.type}
-                style={{
-                  top: displayTop,
-                  zIndex: searchTerm.trim() ? 1000 + index : file.id // Arama sonuçları için yeni z-index
-                }}
+                data-desktop={isDesktop ? "true" : "false"}
+                style={itemStyle}
               >
               <div className="file-image-wrapper">
                 <img 

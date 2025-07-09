@@ -67,7 +67,6 @@
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
-
   border-radius: 8px;
   padding: 0;
   margin: 0;
@@ -75,8 +74,31 @@
   transition: all 0.3s ease;
 }
 
+/* Default hover */
 .file-item:hover {
   transform: translateX(-50%) translateY(-5px); /* Sadece yukarı kalkma hareketi */
+}
+
+/* Desktop mode - absolute positioning */
+.file-item[data-desktop="true"] {
+  position: absolute !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+}
+
+.file-item[data-desktop="true"]:hover {
+  transform: translateX(-50%) translateY(-5px) !important;
+}
+
+/* Non-desktop mode - reset defaults */
+.file-item[data-desktop="false"] {
+  position: relative !important;
+  left: auto !important;
+  transform: none !important;
+}
+
+.file-item[data-desktop="false"]:hover {
+  transform: translateY(-5px) !important;
 }
 
 /* File dosya tipi tanımları - debug renkleri kaldırıldı */
@@ -177,37 +199,161 @@
   color: #d4af37;
 }
 
-/* Responsive Design */
-@media (max-width: 1200px) {
-  .file-list-overlay {
-    width: 700px;
-    height: 700px;
-  }
-}
+/* ===============================================
+   RESPONSIVE DESIGN - Browser'ı DOKUNMA!
+   =============================================== */
 
+/* Tablet Tasarım - Wrap div sistemi */
 @media (max-width: 900px) {
   .file-list-overlay {
-    width: 90vw;
+    width: 85vw;
     height: 70vh;
     max-width: 600px;
-    max-height: 600px;
-  }
-}
-
-@media (max-width: 600px) {
-  .file-list-overlay {
-    width: 95vw;
-    height: 75vh;
-    max-width: 400px;
     max-height: 500px;
   }
   
-  .file-list-scroll-area {
-    padding: 15px;
+  /* Tablet'te flexbox wrap sistemi - Güçlü override */
+  .file-list-container .file-list-scroll-area {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    gap: 15px !important;
+    padding: 15px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
   }
   
-  .file-title {
-    font-size: 11px;
-    padding: 3px 6px;
+  /* File item'ları relative positioning'e çevir - Çok güçlü override */
+  .file-list-container .file-list-scroll-area .file-item[data-desktop="false"] {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: 280px !important;
+    height: auto !important;
+    margin: 0 !important;
+    float: none !important;
+  }
+  
+  .file-list-container .file-list-scroll-area .file-item[data-desktop="false"]:hover {
+    transform: translateY(-5px) !important;
+    left: auto !important;
+    top: auto !important;
+  }
+  
+  /* File image'ı responsive yap - Güçlü override */
+  .file-list-container .file-list-scroll-area .file-item .file-image {
+    width: 100% !important;
+    max-width: 280px !important;
+    height: auto !important;
+  }
+  
+  /* Title pozisyonlarını yeniden ayarla - Güçlü override */
+  .file-list-container .file-list-scroll-area .file-item .file-title {
+    position: absolute !important;
+    top: 3px !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: translateX(-50%) !important;
+    font-size: 14px !important;
+    width: 120px !important;
+  }
+  
+  .file-list-container .file-list-scroll-area .file-item .file-clickable-area {
+    position: absolute !important;
+    top: 3px !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: translateX(-50%) !important;
+    width: 120px !important;
+  }
+}
+
+/* Mobile Tasarım - Daha küçük wrap sistemi */
+@media (max-width: 600px) {
+  .file-list-overlay {
+    width: 90vw;
+    height: 65vh;
+    max-width: 95vw;
+    max-height: 70vh;
+  }
+  
+  /* Mobile flexbox grid - Güçlü override */
+  .file-list-container .file-list-scroll-area {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    padding: 12px !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+  
+  /* Küçük file item'lar - Çok güçlü override */
+  .file-list-container .file-list-scroll-area .file-item[data-desktop="false"] {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: 150px !important;
+    height: auto !important;
+    margin: 0 !important;
+    float: none !important;
+  }
+  
+  .file-list-container .file-list-scroll-area .file-item[data-desktop="false"]:hover {
+    transform: translateY(-3px) !important;
+    left: auto !important;
+    top: auto !important;
+  }
+  
+  /* Mobile responsive image - Güçlü override */
+  .file-list-container .file-list-scroll-area .file-item .file-image {
+    width: 100% !important;
+    max-width: 150px !important;
+    height: auto !important;
+  }
+  
+  /* Mobile title - Güçlü override */
+  .file-list-container .file-list-scroll-area .file-item .file-title {
+    position: absolute !important;
+    top: 2px !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: translateX(-50%) !important;
+    font-size: 11px !important;
+    width: 80px !important;
+    padding: 2px 4px !important;
+  }
+  
+  .file-list-container .file-list-scroll-area .file-item .file-clickable-area {
+    position: absolute !important;
+    top: 2px !important;
+    left: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: translateX(-50%) !important;
+    width: 80px !important;
+    height: 25px !important;
+  }
+  
+  /* Empty state mobile */
+  .file-list-empty p {
+    font-size: 14px;
+  }
+  
+  .file-list-empty p:first-child {
+    font-size: 16px;
   }
 } 

@@ -405,16 +405,20 @@ body.modal-open .workspace-item.hover {
 /* Sol Taraf - Başlık Wrapper */
 .shelf-title-wrapper {
   position: fixed;
-  left: 42px;
-  top: 35px;
-  width: 300px;
-  min-height: 60px; /* Yeterli alan sağla */
+  left: 94px;
+  top: 21px;
+  width: 200px;            /* 280px'den 200px'e azalttık - daha kısa başlık */
+  max-width: 200px;        /* Kesin sınır */
+  min-height: 50px;        /* 60px'den 50px'e azalttık */
+  max-height: 80px;        /* Maksimum yükseklik sınırı */
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 100003;
-  /* Dinamik yükseklik için overflow kontrolü */
-  overflow: visible;
+  /* Alan sınırlaması için overflow kontrolü */
+  overflow: hidden;        /* visible'dan hidden'a değiştirdik */
+  /* Debug için border ekleyebilirsiniz */
+  /* border: 1px solid rgba(255,255,255,0.2); */
 }
 
 /* NFT Koleksiyon Başlığı - Dinamik Font ve Merkezli Hizalama */
@@ -423,7 +427,7 @@ body.modal-open .workspace-item.hover {
   font-weight: 500;
   color: #fff;
   text-align: center;
-  line-height: 1.4;
+  line-height: 1.3;        /* 1.4'ten 1.3'e azalttık */
   word-wrap: break-word;
   overflow-wrap: break-word;
   hyphens: auto;
@@ -439,9 +443,14 @@ body.modal-open .workspace-item.hover {
   /* Container'ın tamamını kaplasın */
   width: 100%;
   height: 100%;
-  min-height: 40px;
+  min-height: 30px;        /* 40px'den 30px'e azalttık */
+  /* Metin taşması kontrolü */
+  overflow: hidden;
+  text-overflow: ellipsis;
   /* Test için cursor */
   cursor: pointer;
+  /* İki satırlık metin için padding */
+  padding: 5px 10px;
 }
 
 /* Sağ Taraf - Search Wrapper */
@@ -576,16 +585,20 @@ body.modal-open .workspace-item.hover {
   
   .shelf-title-wrapper {
     position: static;
-    width: 100%;
+    width: 180px;            /* Tablet için küçültüldü */
+    max-width: 180px;
     top: auto;
     left: auto;
     margin-bottom: 15px;
-    min-height: 50px; /* Tablet için uygun yükseklik */
+    min-height: 45px;        /* Tablet için uygun yükseklik */
+    max-height: 70px;        /* Tablet maksimum yükseklik */
   }
   
   .shelf-collection-title {
     text-align: center;
-    min-height: 35px; /* Tablet için minimum yükseklik */
+    min-height: 25px;        /* Tablet için minimum yükseklik */
+    line-height: 1.25;       /* Tablet için line-height */
+    padding: 3px 8px;        /* Tablet için padding */
   }
   
   .shelf-search-wrapper {
@@ -624,13 +637,17 @@ body.modal-open .workspace-item.hover {
   
   .shelf-title-wrapper {
     position: static;
-    width: 100%;
+    width: 160px;            /* Mobile için daha küçük */
+    max-width: 160px;
     margin-bottom: 12px;
-    min-height: 45px; /* Mobile için uygun yükseklik */
+    min-height: 40px;        /* Mobile için minimum yükseklik */
+    max-height: 60px;        /* Mobile maksimum yükseklik */
   }
   
   .shelf-collection-title {
-    min-height: 30px; /* Mobile için minimum yükseklik */
+    min-height: 20px;        /* Mobile için minimum yükseklik */
+    line-height: 1.2;        /* Mobile için daha sıkışık */
+    padding: 2px 6px;        /* Mobile için küçük padding */
   }
   
   .shelf-search-wrapper {

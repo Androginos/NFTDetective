@@ -405,8 +405,8 @@ body.modal-open .workspace-item.hover {
 /* Sol Taraf - Başlık Wrapper */
 .shelf-title-wrapper {
   position: fixed;
-  left: 94px;
-  top: 21px;
+  left: 90px;
+  top: 10px; /* 21px'den 15px'e yukarı alındı */
   width: 200px;            /* 280px'den 200px'e azalttık - daha kısa başlık */
   max-width: 200px;        /* Kesin sınır */
   min-height: 50px;        /* 60px'den 50px'e azalttık */
@@ -456,8 +456,8 @@ body.modal-open .workspace-item.hover {
 /* Sağ Taraf - Search Wrapper */
 .shelf-search-wrapper {
   position: fixed;
-  right: 3px;
-  top: 28px;
+  right: -10px;
+  top: 19px;
   width: 300px;
   display: flex;
   justify-content: flex-start;
@@ -576,7 +576,7 @@ body.modal-open .workspace-item.hover {
 /* Responsive Tasarım - Tablet */
 @media (max-width: 768px) {
   .shelf-modal-header {
-    top: 15px; /* 25px'den 15px'e yaklaştırıldı */
+    top: 10px; /* 15px'den 10px'e daha yukarı alındı */
     width: 95%;
     gap: 8px; /* 15px'den 8px'e azaltıldı */
     flex-direction: column;
@@ -647,7 +647,11 @@ body.modal-open .workspace-item.hover {
   .shelf-collection-title {
     min-height: 20px;        /* Mobile için minimum yükseklik */
     line-height: 1.2;        /* Mobile için daha sıkışık */
-    padding: 2px 6px;        /* Mobile için küçük padding */
+    padding: 8px 12px;       /* Mobil için daha büyük padding */
+    /* Mobil için siyah opak rounded çerçeve */
+    background: rgba(0, 0, 0, 0.6) !important;
+    border-radius: 12px !important;
+    backdrop-filter: blur(4px) !important;
   }
   
   .shelf-search-wrapper {
@@ -661,6 +665,16 @@ body.modal-open .workspace-item.hover {
     height: 38px;
     font-size: 13px;
     padding: 9px 40px 9px 15px;
+    /* Mobil için siyah opak rounded çerçeve */
+    background: rgba(0, 0, 0, 0.6) !important;
+    border-radius: 20px !important;
+    backdrop-filter: blur(4px) !important;
+    color: #fff !important; /* Yazı rengi beyaz */
+    border: none !important;
+  }
+  
+  .shelf-search-input::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important; /* Placeholder beyaz */
   }
   
   .shelf-search-clear-btn {

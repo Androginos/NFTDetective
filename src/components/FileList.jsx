@@ -10,17 +10,42 @@ const FileList = ({ fileCount = 0, searchTerm = '' }) => {
   // File görselleri döngüsü - file1, file2, file3
   const fileImages = ['/file1.png', '/file2.png', '/file3.png'];
   
-  // Dosya türü başına farklı başlık pozisyonları
+  // Dosya türü başına farklı başlık pozisyonları - Responsive
   const titlePositions = {
-    0: { top: '5px', left: '280px' }, // file1.png için
-    1: { top: '5px', left: '480px' }, // file2.png için  
-    2: { top: '5px', left: '70px' }  // file3.png için
+    desktop: {
+      0: { top: '5px', left: '290px' }, // file1.png için
+      1: { top: '5px', left: '495px' }, // file2.png için  
+      2: { top: '5px', left: '75px' }   // file3.png için
+    },
+    mobile: {
+      0: { top: '2px', left: '50%', transform: 'translateX(-50%)' }, // file1.png - ORTADA
+      1: { top: '2px', left: '80%', transform: 'translateX(-50%)' }, // file2.png - EN SAĞDA  
+      2: { top: '2px', left: '18%', transform: 'translateX(-50%)' }  // file3.png - EN SOLDA
+    },
+    tablet: {
+      0: { top: '3px', left: '50%', transform: 'translateX(-50%)' }, // file1.png - ORTADA
+      1: { top: '3px', left: '85%', transform: 'translateX(-50%)' }, // file2.png - EN SAĞDA  
+      2: { top: '3px', left: '15%', transform: 'translateX(-50%)' }  // file3.png - EN SOLDA
+    }
   };
 
+  // Device type detection - 3 durumlu
+  const [deviceType, setDeviceType] = useState('desktop');
+  
   // Responsive detection
   useEffect(() => {
     const handleResize = () => {
-      setIsDesktop(window.innerWidth > 900);
+      const width = window.innerWidth;
+      if (width > 900) {
+        setDeviceType('desktop');
+        setIsDesktop(true);
+      } else if (width > 600) {
+        setDeviceType('tablet');
+        setIsDesktop(false);
+      } else {
+        setDeviceType('mobile');
+        setIsDesktop(false);
+      }
     };
     
     // İlk yükleme
@@ -43,7 +68,7 @@ const FileList = ({ fileCount = 0, searchTerm = '' }) => {
           type: fileType,
           image: fileImages[fileType],
           title: `NFT #${i + 1}`, // Placeholder title
-          position: titlePositions[fileType],
+          position: titlePositions.desktop[fileType], // Desktop pozisyon referansı
           groupIndex: groupIndex // Grup numarası
         });
       }
@@ -103,9 +128,13 @@ const FileList = ({ fileCount = 0, searchTerm = '' }) => {
                 />
                 <div 
                   className="file-title"
-                  style={{
+                  style={deviceType === 'desktop' ? {
+                    // Desktop pozisyonları (orijinal)
                     top: file.position.top,
                     left: file.position.left
+                  } : {
+                    // Mobile/tablet pozisyonları (dinamik)
+                    ...titlePositions[deviceType][file.type]
                   }}
                 >
                   {file.title}
@@ -113,10 +142,15 @@ const FileList = ({ fileCount = 0, searchTerm = '' }) => {
                 {/* Seçilebilir alan - başlık pozisyonunda */}
                 <div 
                   className="file-clickable-area"
-                  style={{
+                  style={deviceType === 'desktop' ? {
+                    // Desktop pozisyonları (orijinal)
                     top: file.position.top,
                     left: file.position.left,
-                    zIndex: 10000 + file.type // Type 0: 10000, Type 1: 10001, Type 2: 10002
+                    zIndex: 10000 + file.type // Type 0: 10000, Type 1: 10001, Type 2: 10002 (3>2>1)
+                  } : {
+                    // Mobile/tablet pozisyonları (dinamik)
+                    ...titlePositions[deviceType][file.type],
+                    zIndex: 10000 + file.type // Z-index sistemi korunsun (3>2>1)
                   }}
                   onClick={() => console.log(`File ${file.id} (Type ${file.type}) clicked!`)}
                   title={`Click to select ${file.title}`}

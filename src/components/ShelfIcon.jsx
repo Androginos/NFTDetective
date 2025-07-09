@@ -245,8 +245,8 @@ const ShelfIcon = ({ deviceType, position, customSize, contained = false, clicka
   // Modal içeriği için otomatik cihaz tipine göre responsive boyutlar
   const modalSizes = {
     desktop: { width: '800px', height: '800px' },   // Desktop - sabit boyut
-    tablet: { width: '70vw', height: '70vh' },      // Tablet - viewport'un %70'i
-    mobile: { width: '85vw', height: '75vh' }       // Mobile - viewport'un %85'i
+    tablet: { width: '100vw', height: '100vh' },      // Tablet - viewport'un %65'i (70vh'den azaltıldı)
+    mobile: { width: '100vw', height: '100vh' }       // Mobile - viewport'un %50'si (75vh'den çok azaltıldı)
   };
 
   // Gerçek device type'ı kullan (prop varsa onu, yoksa auto-detected)

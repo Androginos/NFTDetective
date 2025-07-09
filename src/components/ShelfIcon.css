@@ -156,7 +156,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 20px;
+  padding: 10px; /* 20px'den 10px'e azaltıldı */
   box-sizing: border-box;
   position: relative; /* FileList overlay için gerekli */
 }
@@ -224,7 +224,7 @@
 @media (max-width: 480px) {
   /* Mobile - Modal tam ortalı kalır, sadece content ayarları */
   .shelf-modal-image-container {
-    padding: 15px; /* Mobile için uygun padding */
+    padding: 5px; /* 15px'den 5px'e çok azaltıldı */
   }
   
   .shelf-modal-close {
@@ -576,9 +576,9 @@ body.modal-open .workspace-item.hover {
 /* Responsive Tasarım - Tablet */
 @media (max-width: 768px) {
   .shelf-modal-header {
-    top: 25px;
+    top: 15px; /* 25px'den 15px'e yaklaştırıldı */
     width: 95%;
-    gap: 15px;
+    gap: 8px; /* 15px'den 8px'e azaltıldı */
     flex-direction: column;
     align-items: center;
   }
@@ -630,9 +630,9 @@ body.modal-open .workspace-item.hover {
 
 @media (max-width: 480px) {
   .shelf-modal-header {
-    top: 20px;
+    top: 10px; /* 20px'den 10px'e yaklaştırıldı */
     width: 98%;
-    gap: 10px;
+    gap: 5px; /* 10px'den 5px'e azaltıldı */
   }
   
   .shelf-title-wrapper {

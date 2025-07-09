@@ -1,11 +1,11 @@
 /* File List Overlay - 900x900 sabit alan */
 .file-list-overlay {
   position: absolute;
-  top: 47.2%;
+  top: 47%;
   left: 50.7%;
   transform: translate(-50%, -50%);
-  width: 688px;
-  height: 609px;
+  width: 690px;
+  height: 625px;
   background: transparent;
 
   border-radius: 10px;
@@ -130,6 +130,13 @@
   filter: drop-shadow(0 -2px 4px rgba(0, 0, 0, 0.21));
 }
 
+/* Desktop (>900px) için büyük file image */
+@media (min-width: 901px) {
+  .file-image {
+    width: 680px; /* Desktop'ta büyük boyut */
+  }
+}
+
 /* File Title - Her file tipi için farklı pozisyon */
 .file-title {
   position: absolute;
@@ -207,9 +214,9 @@
 @media (max-width: 900px) {
   .file-list-overlay {
     width: 85vw;
-    height: 70vh;
+    height: 55vh; /* 70vh'den 55vh'e azaltıldı */
     max-width: 600px;
-    max-height: 500px;
+    max-height: 400px; /* 500px'den 400px'e azaltıldı */
   }
   
   /* Tablet'te flexbox wrap sistemi - Güçlü override */
@@ -252,14 +259,14 @@
     height: auto !important;
   }
   
-  /* Title pozisyonlarını yeniden ayarla - Güçlü override */
+  /* Title pozisyonlarını yeniden ayarla - JavaScript kontrolü için left kaldırdım */
   .file-list-container .file-list-scroll-area .file-item .file-title {
     position: absolute !important;
     top: 3px !important;
-    left: 50% !important;
+    /* left: JavaScript'ten gelecek - CSS override kaldırıldı */
     right: auto !important;
     bottom: auto !important;
-    transform: translateX(-50%) !important;
+    /* transform: JavaScript'ten gelecek - CSS override kaldırıldı */
     font-size: 14px !important;
     width: 120px !important;
   }
@@ -267,10 +274,10 @@
   .file-list-container .file-list-scroll-area .file-item .file-clickable-area {
     position: absolute !important;
     top: 3px !important;
-    left: 50% !important;
+    /* left: JavaScript'ten gelecek - CSS override kaldırıldı */
     right: auto !important;
     bottom: auto !important;
-    transform: translateX(-50%) !important;
+    /* transform: JavaScript'ten gelecek - CSS override kaldırıldı */
     width: 120px !important;
   }
 }
@@ -278,10 +285,16 @@
 /* Mobile Tasarım - Daha küçük wrap sistemi */
 @media (max-width: 600px) {
   .file-list-overlay {
-    width: 90vw;
-    height: 65vh;
-    max-width: 95vw;
-    max-height: 70vh;
+    /* BOYUT AYARLARI */
+    width: 88vw;
+    height: 36vh; /* 65vh'den 40vh'e çok azaltıldı */
+    max-width: 87vw;
+    max-height: 36vh; /* 70vh'den 45vh'e çok azaltıldı */
+    
+    /* POZİSYON AYARLARI - Manuel değiştir */
+    top: 49% !important;           /* Ana CSS'deki 47.2%'i override et */
+    left: 51% !important;          /* Ana CSS'deki 50.7%'i override et */
+    transform: translate(-50%, -50%) !important;  /* Ortalama korunsun */
   }
   
   /* Mobile flexbox grid - Güçlü override */
@@ -289,10 +302,15 @@
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: wrap !important;
-    justify-content: center !important;
-    align-items: flex-start !important;
-    gap: 12px !important;
-    padding: 12px !important;
+    
+    /* POZİSYON AYARLARI - Manuel değiştir */
+    justify-content: center !important;     /* Yatay: center, flex-start (sola), flex-end (sağa) */
+    align-items: flex-start !important;     /* Dikey: flex-start (üst), center (orta), flex-end (alt) */
+    
+    /* GAP VE PADDING AYARLARI - Manuel değiştir */
+    gap: 0px !important;                    /* Gap sıfır */
+    padding: 0px !important;                /* Kenar boşluklar: küçült = daha az, büyüt = daha çok */
+    
     overflow-y: auto !important;
     overflow-x: hidden !important;
   }
@@ -305,9 +323,16 @@
     right: auto !important;
     bottom: auto !important;
     transform: none !important;
-    width: 150px !important;
-    height: auto !important;
-    margin: 0 !important;
+    
+    /* FILE ITEM BOYUTU - Manuel değiştir */
+    width: 500px !important;                /* File item genişliği: 500px'den 600px'e büyütüldü */
+    height: auto !important;                /* Yükseklik otomatik */
+    
+    /* NEGATİF MARGIN ile 1,2,3 arası yakınlaştırma */
+    margin-left: 0px !important;           /* Sol margin normal */
+    margin-right: 0px !important;          /* Sağ margin normal */
+    margin-top: 0px !important;          /* Üst margin negatif: yukarı yakınlaştır */
+    margin-bottom: -17px !important;       /* Alt margin negatif: aşağı yakınlaştır */
     float: none !important;
   }
   
@@ -320,32 +345,32 @@
   /* Mobile responsive image - Güçlü override */
   .file-list-container .file-list-scroll-area .file-item .file-image {
     width: 100% !important;
-    max-width: 150px !important;
+    max-width: 370px !important; /* 350px'den 450px'e büyütüldü */
     height: auto !important;
   }
   
-  /* Mobile title - Güçlü override */
+  /* Mobile title - JavaScript kontrolü için left pozisyonunu kaldırdım */
   .file-list-container .file-list-scroll-area .file-item .file-title {
     position: absolute !important;
     top: 2px !important;
-    left: 50% !important;
+    /* left: JavaScript'ten gelecek - CSS override kaldırıldı */
     right: auto !important;
     bottom: auto !important;
-    transform: translateX(-50%) !important;
-    font-size: 11px !important;
-    width: 80px !important;
-    padding: 2px 4px !important;
+    /* transform: JavaScript'ten gelecek - CSS override kaldırıldı */
+    font-size: 12px !important; /* 10px'den 12px'e büyütüldü */
+    width: 90px !important; /* 70px'den 90px'e büyütüldü */
+    padding: 2px 4px !important; /* 1px 3px'den 2px 4px'e büyütüldü */
   }
   
   .file-list-container .file-list-scroll-area .file-item .file-clickable-area {
     position: absolute !important;
     top: 2px !important;
-    left: 50% !important;
+    /* left: JavaScript'ten gelecek - CSS override kaldırıldı */
     right: auto !important;
     bottom: auto !important;
-    transform: translateX(-50%) !important;
-    width: 80px !important;
-    height: 25px !important;
+    /* transform: JavaScript'ten gelecek - CSS override kaldırıldı */
+    width: 90px !important; /* 70px'den 90px'e büyütüldü */
+    height: 28px !important; /* 22px'den 28px'e büyütüldü */
   }
   
   /* Empty state mobile */

@@ -1,10 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { createPortal } from "react-dom";
 import "./ShelfIcon.css";
+import FileList from "./FileList";
 
 const ShelfIcon = ({ deviceType, position, customSize, contained = false, clickableSize }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentDeviceType, setCurrentDeviceType] = useState('desktop');
+  const [searchTerm, setSearchTerm] = useState('');
+  const [collectionTitle, setCollectionTitle] = useState('NFT Collection Name');
+  const [titleFontSize, setTitleFontSize] = useState(15); // Dinamik font boyutu
+
+  // Dinamik font boyutu hesaplama fonksiyonu
+  const calculateFontSize = (text, deviceType) => {
+    const baseFontSizes = {
+      desktop: 15,
+      tablet: 14,
+      mobile: 12
+    };
+    
+    const maxWidths = {
+      desktop: 300,
+      tablet: 250,
+      mobile: 200
+    };
+    
+    const baseSize = baseFontSizes[deviceType] || baseFontSizes.desktop;
+    const maxWidth = maxWidths[deviceType] || maxWidths.desktop;
+    
+    // Karakter sayısına göre font boyutunu hesapla
+    const textLength = text.length;
+    let fontSize = baseSize;
+    
+    if (textLength > 20) {
+      fontSize = baseSize - Math.floor((textLength - 20) / 8);
+    }
+    
+    // Minimum font boyutu sınırı
+    const minFontSize = deviceType === 'mobile' ? 9 : 
+                        deviceType === 'tablet' ? 10 : 11;
+    
+    return Math.max(fontSize, minFontSize);
+  };
 
   // Otomatik device detection
   useEffect(() => {
@@ -26,6 +62,13 @@ const ShelfIcon = ({ deviceType, position, customSize, contained = false, clicka
     window.addEventListener('resize', detectDevice);
     return () => window.removeEventListener('resize', detectDevice);
   }, []);
+
+  // Başlık değiştiğinde veya device type değiştiğinde font boyutunu güncelle
+  useEffect(() => {
+    const effectiveDeviceType = deviceType || currentDeviceType;
+    const newFontSize = calculateFontSize(collectionTitle, effectiveDeviceType);
+    setTitleFontSize(newFontSize);
+  }, [collectionTitle, currentDeviceType, deviceType]);
 
   // ESC tuşu ile modal kapatma
   useEffect(() => {
@@ -89,8 +132,32 @@ const ShelfIcon = ({ deviceType, position, customSize, contained = false, clicka
   // Modal kapatma fonksiyonu
   const closeModal = () => {
     setIsModalOpen(false);
+    setSearchTerm(''); // Modal kapanırken aramayı temizle
     // Modal kapandığında hover efektlerini tekrar aktif et
     document.body.classList.remove('modal-open');
+  };
+
+  // Arama fonksiyonları
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const clearSearch = () => {
+    setSearchTerm('');
+  };
+
+  // Test için başlık değiştirme (geliştirme amaçlı)
+  const handleTitleDoubleClick = () => {
+    const testTitles = [
+      'NFT Collection Name',
+      'Super Long NFT Collection Name That Should Get Smaller Font',
+      'Very Very Very Long NFT Collection Name That Should Wrap to Multiple Lines and Still Stay Centered',
+      'Short Title',
+      'Medium Length NFT Collection'
+    ];
+    const currentIndex = testTitles.indexOf(collectionTitle);
+    const nextTitle = testTitles[(currentIndex + 1) % testTitles.length];
+    setCollectionTitle(nextTitle);
   };
 
   // Device-specific sizing - Easy to customize
@@ -215,13 +282,60 @@ const ShelfIcon = ({ deviceType, position, customSize, contained = false, clicka
               <button className="shelf-modal-close" onClick={closeModal}>
                 ×
               </button>
-              <div className="shelf-modal-image-container">
-                <img 
-                  src="/testimg1.png" 
-                  alt="Shelf Content" 
-                  className="shelf-modal-image"
-                />
+              
+              {/* Modal Üst Bölümü - Başlık ve Arama */}
+              <div className="shelf-modal-header">
+                {/* Sol Taraf - Başlık Wrapper */}
+                <div className="shelf-title-wrapper">
+                  <div 
+                    className="shelf-collection-title"
+                    style={{ fontSize: `${titleFontSize}px` }}
+                    onDoubleClick={handleTitleDoubleClick}
+                    title="Çift tıklayarak farklı başlık uzunluklarını test edin"
+                  >
+                    {collectionTitle}
+                  </div>
+                </div>
+                
+                {/* Sağ Taraf - Search Wrapper */}
+                <div className="shelf-search-wrapper">
+                  <div className="shelf-search-container">
+                    <div className="shelf-search-input-wrapper">
+                      <input
+                        type="text"
+                        placeholder="Search..."
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        className="shelf-search-input"
+                      />
+                      {searchTerm && (
+                        <button 
+                          onClick={clearSearch}
+                          className="shelf-search-clear-btn"
+                          aria-label="Aramayı temizle"
+                        >
+                          ×
+                        </button>
+                      )}
+                    </div>
+                    {searchTerm && (
+                      <div className="shelf-search-results-info">
+                        Called: "{searchTerm}"
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
+            
+            <div className="shelf-modal-image-container">
+              <img 
+                src="/testimg1.png" 
+                alt="Shelf Content" 
+                className="shelf-modal-image"
+              />
+              {/* FileList Overlay - searchTerm prop'u ile */}
+              <FileList fileCount={500} searchTerm={searchTerm} />
+            </div>
             </div>
           </div>,
           document.body
@@ -265,12 +379,59 @@ const ShelfIcon = ({ deviceType, position, customSize, contained = false, clicka
             <button className="shelf-modal-close" onClick={closeModal}>
               ×
             </button>
+            
+            {/* Modal Üst Bölümü - Başlık ve Arama */}
+            <div className="shelf-modal-header">
+              {/* Sol Taraf - Başlık Wrapper */}
+              <div className="shelf-title-wrapper">
+                <div 
+                  className="shelf-collection-title"
+                  style={{ fontSize: `${titleFontSize}px` }}
+                  onDoubleClick={handleTitleDoubleClick}
+                  title="Çift tıklayarak farklı başlık uzunluklarını test edin"
+                >
+                  {collectionTitle}
+                </div>
+              </div>
+              
+              {/* Sağ Taraf - Search Wrapper */}
+              <div className="shelf-search-wrapper">
+                <div className="shelf-search-container">
+                  <div className="shelf-search-input-wrapper">
+                    <input
+                      type="text"
+                      placeholder="Search..."
+                      value={searchTerm}
+                      onChange={handleSearchChange}
+                      className="shelf-search-input"
+                    />
+                    {searchTerm && (
+                      <button 
+                        onClick={clearSearch}
+                        className="shelf-search-clear-btn"
+                        aria-label="Aramayı temizle"
+                      >
+                        ×
+                      </button>
+                    )}
+                  </div>
+                  {searchTerm && (
+                    <div className="shelf-search-results-info">
+                      Called: "{searchTerm}"
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            
             <div className="shelf-modal-image-container">
               <img 
                 src="/testimg1.png" 
                 alt="Shelf Content" 
                 className="shelf-modal-image"
               />
+              {/* FileList Overlay - searchTerm prop'u ile */}
+              <FileList fileCount={500} searchTerm={searchTerm} />
             </div>
           </div>
         </div>,

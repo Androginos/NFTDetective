@@ -31,6 +31,7 @@
   padding: 10px 15px;
   border-radius: 8px;
   font-size: 12px;
+  font-family: 'Sora', sans-serif;
   max-width: 250px;
   z-index: 20;
   pointer-events: auto;
@@ -40,6 +41,7 @@
   margin: 4px 0;
   font-size: 11px;
   color: #fff;
+  font-family: 'Sora', sans-serif;
   font-weight: 400;
 }
 
